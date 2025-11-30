@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinoBox - Онлайн Кинотеатр</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <h2><i class="fas fa-film"></i> KinoBox</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Главная</a></li>
+                <li><a href="#movies" class="nav-link">Фильмы</a></li>
+                <li><a href="#search" class="nav-link">Поиск</a></li>
+                <li><a href="#stats" class="nav-link">Статистика</a></li>
+                <li><a href="#admin" class="nav-link">Админка</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn btn-outline" onclick="changeLanguage()">
+                    <i class="fas fa-globe"></i> RU
+                </button>
+                <button class="btn btn-primary" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">🎬 KinoBox</h1>
+            <p class="hero-subtitle">Лучшие фильмы в одном месте!</p>
+            <p class="hero-description">
+                Наслаждайтесь просмотром фильмов по уникальным кодам. 
+                Просто введите код и начинайте просмотр!
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <i class="fas fa-users"></i>
+                    <span id="totalUsers">15,247</span>
+                    <small>пользователей</small>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-film"></i>
+                    <span id="totalMovies">2,843</span>
+                    <small>фильмов</small>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-play-circle"></i>
+                    <span id="todayViews">1,284</span>
+                    <small>просмотров сегодня</small>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="movie-card-hero">
+                <div class="movie-poster"></div>
+                <div class="movie-info">
+                    <h3>Фильм по коду</h3>
+                    <p>Введите код для просмотра</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Search -->
+    <section class="quick-search">
+        <div class="container">
+            <h2>🔍 Быстрый поиск фильма</h2>
+            <div class="search-box">
+                <input type="text" id="movieCode" placeholder="Введите код фильма..." class="search-input">
+                <button onclick="searchMovie()" class="btn btn-primary search-btn">
+                    <i class="fas fa-search"></i> Найти фильм
+                </button>
+            </div>
+            <div id="searchResult" class="search-result"></div>
+        </div>
+    </section>
+
+    <!-- Movies Section -->
+    <section id="movies" class="movies">
+        <div class="container">
+            <h2>🎬 Популярные фильмы</h2>
+            <div class="movies-grid" id="moviesGrid">
+                <!-- Фильмы будут загружены через JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="stats" class="stats">
+        <div class="container">
+            <h2>📊 Статистика</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statUsers">15,247</h3>
+                        <p>Всего пользователей</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statMovies">2,843</h3>
+                        <p>Фильмов в базе</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statActive">1,284</h3>
+                        <p>Активных сегодня</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statSearches">45,621</h3>
+                        <p>Всего поисков</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Users -->
+            <div class="top-users">
+                <h3>🏆 Топ пользователей сегодня</h3>
+                <div class="users-list" id="topUsersList">
+                    <!-- Топ пользователей -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin" class="admin-panel">
+        <div class="container">
+            <h2>👑 Панель администратора</h2>
+            
+            <!-- Admin Stats -->
+            <div class="admin-stats">
+                <div class="admin-stat">
+                    <h4>👥 Пользователи</h4>
+                    <p class="stat-number" id="adminTotalUsers">15,247</p>
+                    <p class="stat-label">Всего пользователей</p>
+                </div>
+                <div class="admin-stat">
+                    <h4>✅ Доступ</h4>
+                    <p class="stat-number" id="adminAppliedUsers">14,892</p>
+                    <p class="stat-label">С доступом</p>
+                </div>
+                <div class="admin-stat">
+                    <h4>🎬 Фильмы</h4>
+                    <p class="stat-number" id="adminTotalMovies">2,843</p>
+                    <p class="stat-label">Всего фильмов</p>
+                </div>
+                <div class="admin-stat">
+                    <h4>🔥 Активность</h4>
+                    <p class="stat-number" id="adminActiveToday">1,284</p>
+                    <p class="stat-label">Активных сегодня</p>
+                </div>
+            </div>
+
+            <!-- Admin Actions -->
+            <div class="admin-actions">
+                <h3>⚡ Действия</h3>
+                <div class="action-buttons">
+                    <button class="btn btn-admin" onclick="showModal('addMovieModal')">
+                        <i class="fas fa-plus"></i> Добавить фильм
+                    </button>
+                    <button class="btn btn-admin" onclick="showModal('massUpdateModal')">
+                        <i class="fas fa-sync"></i> Массовое обновление
+                    </button>
+                    <button class="btn btn-admin" onclick="showModal('broadcastModal')">
+                        <i class="fas fa-bullhorn"></i> Рассылка
+                    </button>
+                    <button class="btn btn-admin" onclick="showModal('templatesModal')">
+                        <i class="fas fa-file-alt"></i> Шаблоны
+                    </button>
+                    <button class="btn btn-admin" onclick="loadDetailedStats()">
+                        <i class="fas fa-chart-bar"></i> Детальная статистика
+                    </button>
+                    <button class="btn btn-admin" onclick="showModal('channelSettingsModal')">
+                        <i class="fas fa-cog"></i> Настройки канала
+                    </button>
+                </div>
+            </div>
+
+            <!-- Top Movies -->
+            <div class="top-movies">
+                <h3>🎬 Топ фильмов</h3>
+                <div class="movies-ranking" id="topMoviesList">
+                    <!-- Рейтинг фильмов -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-film"></i> KinoBox</h3>
+                    <p>Лучший онлайн кинотеатр с уникальной системой кодов</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Быстрые ссылки</h4>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#movies">Фильмы</a></li>
+                        <li><a href="#search">Поиск</a></li>
+                        <li><a href="#admin">Админка</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-paper-plane"></i> Telegram: @Kinobox</p>
+                    <p><i class="fas fa-envelope"></i> Email: support@kinobox.ru</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 KinoBox. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    
+    <!-- Add Movie Modal -->
+    <div id="addMovieModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🎬 Добавить фильм</h3>
+                <span class="close" onclick="closeModal('addMovieModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Код фильма:</label>
+                    <input type="text" id="movieCodeInput" placeholder="Введите уникальный код" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Файл фильма:</label>
+                    <input type="file" id="movieFileInput" class="form-input" accept="video/*">
+                </div>
+                <button class="btn btn-primary" onclick="addMovie()">Добавить фильм</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mass Update Modal -->
+    <div id="massUpdateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔄 Массовое обновление</h3>
+                <span class="close" onclick="closeModal('massUpdateModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p><strong>Внимание:</strong> Это действие заменит файлы у ВСЕХ фильмов в базе!</p>
+                <div class="form-group">
+                    <label>Новый файл:</label>
+                    <input type="file" id="massUpdateFile" class="form-input" accept="video/*">
+                </div>
+                <button class="btn btn-warning" onclick="massUpdate()">Обновить все фильмы</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Broadcast Modal -->
+    <div id="broadcastModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📢 Рассылка сообщений</h3>
+                <span class="close" onclick="closeModal('broadcastModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Сообщение:</label>
+                    <textarea id="broadcastMessage" placeholder="Введите сообщение для рассылки..." class="form-textarea" rows="6"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Тип рассылки:</label>
+                    <select id="broadcastType" class="form-select">
+                        <option value="all">Всем пользователям</option>
+                        <option value="admins">Только админам</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="sendBroadcast()">Отправить рассылку</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates Modal -->
+    <div id="templatesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📝 Шаблоны рассылки</h3>
+                <span class="close" onclick="closeModal('templatesModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="templates-list" id="templatesList">
+                    <!-- Список шаблонов -->
+                </div>
+                <button class="btn btn-primary" onclick="showModal('createTemplateModal')">
+                    <i class="fas fa-plus"></i> Создать шаблон
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Template Modal -->
+    <div id="createTemplateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📝 Создать шаблон</h3>
+                <span class="close" onclick="closeModal('createTemplateModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Название шаблона:</label>
+                    <input type="text" id="templateName" placeholder="Введите название" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Текст шаблона:</label>
+                    <textarea id="templateText" placeholder="Введите текст шаблона..." class="form-textarea" rows="6"></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="createTemplate()">Создать шаблон</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Channel Settings Modal -->
+    <div id="channelSettingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚙️ Настройки канала</h3>
+                <span class="close" onclick="closeModal('channelSettingsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Ссылка на канал:</label>
+                    <input type="text" id="channelUrl" placeholder="https://t.me/..." class="form-input">
+                </div>
+                <button class="btn btn-primary" onclick="updateChannelUrl()">Обновить ссылку</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Movie Player Modal -->
+    <div id="moviePlayerModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>🎬 Просмотр фильма</h3>
+                <span class="close" onclick="closeModal('moviePlayerModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <video id="moviePlayer" controls width="100%">
+                    Ваш браузер не поддерживает видео тег.
+                </video>
+                <div class="movie-info-player">
+                    <h4 id="movieTitle">Название фильма</h4>
+                    <p id="movieCodeDisplay">Код: </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
